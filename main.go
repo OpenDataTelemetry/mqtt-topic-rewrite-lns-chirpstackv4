@@ -9,28 +9,20 @@ import (
 	"github.com/google/uuid"
 )
 
-// type LnsImtTopicRewrite struct {
-// 	ApplicationName string `json:"applicationName"`
-// 	NodeName        string `json:"nodeName"`
-// 	DevEUI          string `json:"devEUI"`
-// }
-
 func main() {
-	// var litr LnsImtTopicRewrite
-
 	id := uuid.New().String()
 	var sbMqttSubClientId strings.Builder
 	var sbMqttPubClientId strings.Builder
 	var sbPubTopic strings.Builder
-	sbMqttSubClientId.WriteString("mqtt-topic-rewrite-lns-imt-")
+	sbMqttSubClientId.WriteString("mqtt-topic-rewrite-lns-chirpstackv4-")
 	sbMqttSubClientId.WriteString(id)
-	sbMqttPubClientId.WriteString("mqtt-topic-rewrite-lns-imt-")
+	sbMqttPubClientId.WriteString("mqtt-topic-rewrite-lns-chirpstackv4-")
 	sbMqttPubClientId.WriteString(id)
 
-	mqttSubBroker := "mqtt://networkserver.maua.br:1883"
+	mqttSubBroker := "mqtt://networkserver2.maua.br:1883"
 	mqttSubClientId := sbMqttSubClientId.String()
-	mqttSubUser := "PUBLIC"
-	mqttSubPassword := "public"
+	mqttSubUser := ""
+	mqttSubPassword := ""
 	mqttSubQos := 0
 
 	mqttSubOpts := MQTT.NewClientOptions()
@@ -40,12 +32,7 @@ func main() {
 	mqttSubOpts.SetPassword(mqttSubPassword)
 
 	mqttSubTopics := map[string]byte{
-		"application/6/node/+/rx":  byte(mqttSubQos),
-		"application/9/node/+/rx":  byte(mqttSubQos),
-		"application/13/node/+/rx": byte(mqttSubQos),
-		"application/18/node/+/rx": byte(mqttSubQos),
-		"application/19/node/+/rx": byte(mqttSubQos),
-		"application/20/node/+/rx": byte(mqttSubQos),
+		"application/a7d603f2-3de4-4516-82f5-3323a3a80467/device/+/event/up": byte(mqttSubQos),
 	}
 
 	mqttPubBroker := "mqtt://mqtt.maua.br:1883"
@@ -80,7 +67,6 @@ func main() {
 		fmt.Printf("Connected to %s\n", mqttPubBroker)
 	}
 
-	// SubscribeMultiple(filters map[string]byte, callback MessageHandler) Token
 	if token := mqttSubClient.SubscribeMultiple(mqttSubTopics, nil); token.Wait() && token.Error() != nil {
 		fmt.Println(token.Error())
 		os.Exit(1)
@@ -91,18 +77,8 @@ func main() {
 		s := strings.Split(incoming[0], "/")
 		var measurement string
 		switch s[1] {
-		case "6":
-			measurement = "SmartLight"
-		case "9":
-			measurement = "EnergyMeter"
-		case "13":
+		case "a7d603f2-3de4-4516-82f5-3323a3a80467":
 			measurement = "WeatherStation"
-		case "18":
-			measurement = "WaterTankLevel"
-		case "19":
-			measurement = "GaugePressure"
-		case "20":
-			measurement = "Hydrometer"
 		}
 		deviceId := s[3]
 
@@ -111,7 +87,7 @@ func main() {
 		sbPubTopic.WriteString(measurement)
 		sbPubTopic.WriteString("/")
 		sbPubTopic.WriteString(deviceId)
-		sbPubTopic.WriteString("/up/imt")
+		sbPubTopic.WriteString("/up/chirpstackv4")
 		// fmt.Printf("RECEIVED TOPIC: %s MESSAGE: %s\n", incoming[0], incoming[1])
 		token := pClient.Publish(sbPubTopic.String(), byte(mqttPubQos), false, incoming[1])
 		token.Wait()

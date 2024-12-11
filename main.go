@@ -9,6 +9,11 @@ import (
 	"github.com/google/uuid"
 )
 
+func connLostHandler(c MQTT.Client, err error) {
+	fmt.Printf("Connection lost, reason: %v\n", err)
+	os.Exit(1)
+}
+
 func main() {
 	id := uuid.New().String()
 	var sbMqttSubClientId strings.Builder
@@ -30,6 +35,7 @@ func main() {
 	mqttSubOpts.SetClientID(mqttSubClientId)
 	mqttSubOpts.SetUsername(mqttSubUser)
 	mqttSubOpts.SetPassword(mqttSubPassword)
+	mqttSubOpts.SetConnectionLostHandler(connLostHandler)
 
 	mqttSubTopics := map[string]byte{
 		"application/a7d603f2-3de4-4516-82f5-3323a3a80467/device/+/event/up": byte(mqttSubQos),

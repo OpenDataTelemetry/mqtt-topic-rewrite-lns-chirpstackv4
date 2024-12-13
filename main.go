@@ -38,7 +38,15 @@ func main() {
 	mqttSubOpts.SetConnectionLostHandler(connLostHandler)
 
 	mqttSubTopics := map[string]byte{
-		"application/a7d603f2-3de4-4516-82f5-3323a3a80467/device/+/event/up": byte(mqttSubQos),
+		"application/deb35cab-8a9a-42a9-b19e-0cd2ac859cc8/device/+/event/up": byte(mqttSubQos), // DET
+		"application/cf909d7a-a970-4473-9ef3-2c0618e1eb63/device/+/event/up": byte(mqttSubQos), // Emma
+		"application/33d3fb39-c249-4f8d-b105-2706af00bf5c/device/+/event/up": byte(mqttSubQos), // EnergyMeter
+		"application/3522bea0-3ecc-43dd-a676-824d2efc9a5a/device/+/event/up": byte(mqttSubQos), // GaugePressure
+		"application/c31059f6-2a9a-49c5-80e5-c912829f433a/device/+/event/up": byte(mqttSubQos), // Hydrometer
+		"application/815dcf59-4f43-45c7-9b0a-e264db48232d/device/+/event/up": byte(mqttSubQos), // MauaSat
+		"application/4ae0c733-e9b5-482f-8542-3d08f8e6d077/device/+/event/up": byte(mqttSubQos), // SmartLight
+		"application/25e85005-adc9-48d6-89e1-b4f677cf18ef/device/+/event/up": byte(mqttSubQos), // WaterTankLevel
+		"application/a7d603f2-3de4-4516-82f5-3323a3a80467/device/+/event/up": byte(mqttSubQos), // WeatherStation
 	}
 
 	mqttPubBroker := "mqtt://mqtt.maua.br:1883"
@@ -83,9 +91,36 @@ func main() {
 		s := strings.Split(incoming[0], "/")
 		var measurement string
 		switch s[1] {
+
+		case "deb35cab-8a9a-42a9-b19e-0cd2ac859cc8":
+			measurement = "DET"
+
+		case "cf909d7a-a970-4473-9ef3-2c0618e1eb63":
+			measurement = "Emma"
+
+		case "33d3fb39-c249-4f8d-b105-2706af00bf5c":
+			measurement = "EnergyMeter"
+
+		case "3522bea0-3ecc-43dd-a676-824d2efc9a5a":
+			measurement = "GaugePressure"
+
+		case "c31059f6-2a9a-49c5-80e5-c912829f433a":
+			measurement = "Hydrometer"
+
+		case "815dcf59-4f43-45c7-9b0a-e264db48232d":
+			measurement = "MauaSat"
+
+		case "4ae0c733-e9b5-482f-8542-3d08f8e6d077":
+			measurement = "SmartLight"
+
+		case "25e85005-adc9-48d6-89e1-b4f677cf18ef":
+			measurement = "WaterTankLevel"
+
 		case "a7d603f2-3de4-4516-82f5-3323a3a80467":
 			measurement = "WeatherStation"
+
 		}
+
 		deviceId := s[3]
 
 		sbPubTopic.Reset()

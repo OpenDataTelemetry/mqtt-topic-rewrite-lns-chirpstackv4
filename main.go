@@ -47,6 +47,7 @@ func main() {
 		"application/4ae0c733-e9b5-482f-8542-3d08f8e6d077/device/+/event/up": byte(mqttSubQos), // SmartLight
 		"application/25e85005-adc9-48d6-89e1-b4f677cf18ef/device/+/event/up": byte(mqttSubQos), // WaterTankLevel
 		"application/a7d603f2-3de4-4516-82f5-3323a3a80467/device/+/event/up": byte(mqttSubQos), // WeatherStation
+		"application/e2cbf2fb-fb26-4608-aacc-66115c0521c0/device/+/event/up": byte(mqttSubQos), // 3LevelSoilDepthMoisture
 	}
 
 	mqttPubBroker := "mqtt://mqtt.maua.br:1883"
@@ -89,9 +90,10 @@ func main() {
 	for {
 		incoming := <-c
 		s := strings.Split(incoming[0], "/")
+		// application/APPLICATION_ID/device/DEVICE_ID/command/down
 		var measurement string
-		switch s[1] {
 
+		switch s[1] {
 		case "deb35cab-8a9a-42a9-b19e-0cd2ac859cc8":
 			measurement = "DET"
 
@@ -118,6 +120,9 @@ func main() {
 
 		case "a7d603f2-3de4-4516-82f5-3323a3a80467":
 			measurement = "WeatherStation"
+
+		case "e2cbf2fb-fb26-4608-aacc-66115c0521c0":
+			measurement = "3LevelSoilDepthMoisture"
 
 		}
 

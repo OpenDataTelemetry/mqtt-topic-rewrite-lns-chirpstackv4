@@ -49,6 +49,8 @@ func main() {
 		"application/a7d603f2-3de4-4516-82f5-3323a3a80467/device/+/event/up": byte(mqttSubQos), // WeatherStation
 		"application/e2cbf2fb-fb26-4608-aacc-66115c0521c0/device/+/event/up": byte(mqttSubQos), // SoilMoisture3DepthLevels
 		"application/5239fc35-6b28-4908-89fa-4efa9bf0636e/device/+/event/up": byte(mqttSubQos), // Sprinkler
+		"application/083c08e7-aa02-41a7-82cb-923ba7c11f53/device/+/event/up": byte(mqttSubQos), // MilkFat
+		"application/15edcb63-f291-4333-ac61-13eb743ad8ef/device/+/event/up": byte(mqttSubQos), // GPS
 	}
 
 	mqttPubBroker := "mqtt://mqtt.maua.br:1883"
@@ -127,6 +129,12 @@ func main() {
 
 		case "5239fc35-6b28-4908-89fa-4efa9bf0636e":
 			measurement = "Sprinkler"
+
+		case "083c08e7-aa02-41a7-82cb-923ba7c11f53":
+			measurement = "MilkFat"
+
+		case "15edcb63-f291-4333-ac61-13eb743ad8ef":
+			measurement = "GPS"
 		}
 
 		deviceId := s[3]

@@ -51,6 +51,7 @@ func main() {
 		"application/5239fc35-6b28-4908-89fa-4efa9bf0636e/device/+/event/up": byte(mqttSubQos), // Sprinkler
 		"application/083c08e7-aa02-41a7-82cb-923ba7c11f53/device/+/event/up": byte(mqttSubQos), // MilkFat
 		"application/15edcb63-f291-4333-ac61-13eb743ad8ef/device/+/event/up": byte(mqttSubQos), // GPS
+		"application/8e20d344-cd01-4503-8ffc-36735af8b2c1/device/+/event/up": byte(mqttSubQos), // VibrationAverage
 	}
 
 	mqttPubBroker := "mqtt://mqtt.maua.br:1883"
@@ -135,6 +136,9 @@ func main() {
 
 		case "15edcb63-f291-4333-ac61-13eb743ad8ef":
 			measurement = "GPS"
+
+		case "8e20d344-cd01-4503-8ffc-36735af8b2c1":
+			measurement = "VibrationAverage"
 		}
 
 		deviceId := s[3]

@@ -142,7 +142,7 @@ func main() {
 			measurement = "VibrationAverage"
 
 		case "72cf3110-59c3-4d95-9107-015c1573e38a":
-			measurement = "8PointTemperature"
+			measurement = "Temperature8Point"
 		}
 
 		deviceId := s[3]

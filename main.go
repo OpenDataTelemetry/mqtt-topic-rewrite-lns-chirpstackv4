@@ -52,6 +52,7 @@ func main() {
 		"application/083c08e7-aa02-41a7-82cb-923ba7c11f53/device/+/event/up": byte(mqttSubQos), // MilkFat
 		"application/15edcb63-f291-4333-ac61-13eb743ad8ef/device/+/event/up": byte(mqttSubQos), // GPS
 		"application/8e20d344-cd01-4503-8ffc-36735af8b2c1/device/+/event/up": byte(mqttSubQos), // VibrationAverage
+		"application/72cf3110-59c3-4d95-9107-015c1573e38a/device/+/event/up": byte(mqttSubQos), // 8PointTemperature
 	}
 
 	mqttPubBroker := "mqtt://mqtt.maua.br:1883"
@@ -139,6 +140,9 @@ func main() {
 
 		case "8e20d344-cd01-4503-8ffc-36735af8b2c1":
 			measurement = "VibrationAverage"
+
+		case "72cf3110-59c3-4d95-9107-015c1573e38a":
+			measurement = "8PointTemperature"
 		}
 
 		deviceId := s[3]

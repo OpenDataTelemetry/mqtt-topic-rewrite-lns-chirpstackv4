@@ -26,4 +26,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: rogeriocassares/mqtt-topic-rewrite-lns-chirpstackv4:0.3.6
+          tags: rogeriocassares/mqtt-topic-rewrite-lns-chirpstackv4:0.3.7
